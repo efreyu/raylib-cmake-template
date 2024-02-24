@@ -8,15 +8,16 @@ int main() {
     //--------------------------------------------------------------------------------------
     const int screen_width = 800;
     const int screen_height = 450;
-	const int frames_count = 3;
+    const int frames_count = 3;
 
     InitWindow(screen_width, screen_height, "raylib cmake template example - sprite animation");
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
     Texture2D anim_texture = LoadTexture("resources/anim.png");  // Texture loading
 
-    Vector2 position = { 800.f / 2.f - 224.f / 2.f, 450.0f / 2.f - (float)anim_texture.height / 2.f};
-    Rectangle frame_rect = { 0.0f, 0.0f, (float)anim_texture.width / frames_count, (float)anim_texture.height };
+    Vector2 position = { 800.f / 2.f - 224.f / 2.f, 450.0f / 2.f - (float)anim_texture.height / 2.f };
+    Rectangle frame_rect = { 0.0f, 0.0f, (float)anim_texture.width / frames_count,
+                             (float)anim_texture.height };
     int current_frame = 0;
 
     int frames_counter = 0;
