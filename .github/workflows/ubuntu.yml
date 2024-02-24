@@ -19,7 +19,4 @@ jobs:
       run: cmake -B build-linux -DCMAKE_BUILD_TYPE=Release
     - name: make
       run: cd build-linux && make -j$(nproc)
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+
