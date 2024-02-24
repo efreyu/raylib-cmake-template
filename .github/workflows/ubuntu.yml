@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: dependencies
+      run: apt-get install xorg-dev libglu1-mesa-dev
     - name: cmake generation
       run: cmake -B build-linux -DCMAKE_BUILD_TYPE=Release
     - name: make
