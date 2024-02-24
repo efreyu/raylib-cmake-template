@@ -1,42 +1,26 @@
 #include "raylib.h"
 
-#define MAX_COLORS_COUNT 21  // Number of colors available
-
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
 int main() {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screen_width = 800;
+    const int screen_height = 450;
+	const int frames_count = 3;
 
-    InitWindow(screenWidth, screenHeight, "raylib [shapes] example - colors palette");
+    InitWindow(screen_width, screen_height, "raylib cmake template example - sprite animation");
 
-    Color colors[MAX_COLORS_COUNT] = { DARKGRAY,   MAROON,    ORANGE, DARKGREEN, DARKBLUE,
-                                       DARKPURPLE, DARKBROWN, GRAY,   RED,       GOLD,
-                                       LIME,       BLUE,      VIOLET, BROWN,     LIGHTGRAY,
-                                       PINK,       YELLOW,    GREEN,  SKYBLUE,   PURPLE,
-                                       BEIGE };
+    // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
+    Texture2D anim_texture = LoadTexture("resources/anim.png");  // Texture loading
 
-    const char* colorNames[MAX_COLORS_COUNT]
-        = { "DARKGRAY",  "MAROON", "ORANGE", "DARKGREEN", "DARKBLUE", "DARKPURPLE", "DARKBROWN",
-            "GRAY",      "RED",    "GOLD",   "LIME",      "BLUE",     "VIOLET",     "BROWN",
-            "LIGHTGRAY", "PINK",   "YELLOW", "GREEN",     "SKYBLUE",  "PURPLE",     "BEIGE" };
+    Vector2 position = { 800.f / 2.f - 224.f / 2.f, 450.0f / 2.f - (float)anim_texture.height / 2.f};
+    Rectangle frame_rect = { 0.0f, 0.0f, (float)anim_texture.width / frames_count, (float)anim_texture.height };
+    int current_frame = 0;
 
-    Rectangle colorsRecs[MAX_COLORS_COUNT] = { { 0 } };  // Rectangles array
-
-    // Fills colorsRecs data (for every rectangle)
-    for (int i = 0; i < MAX_COLORS_COUNT; i++) {
-        colorsRecs[i].x = 20.0f + 100.0f * (i % 7) + 10.0f * (i % 7);
-        colorsRecs[i].y = 80.0f + 100.0f * (i / 7) + 10.0f * (i / 7);
-        colorsRecs[i].width = 100.0f;
-        colorsRecs[i].height = 100.0f;
-    }
-
-    int colorState[MAX_COLORS_COUNT] = { 0 };  // Color state: 0-DEFAULT, 1-MOUSE_HOVER
-
-    Vector2 mousePoint = { 0.0f, 0.0f };
+    int frames_counter = 0;
+    int frames_speed = 3;  // Number of spritesheet frames shown by second
 
     SetTargetFPS(60);  // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -46,40 +30,29 @@ int main() {
     {
         // Update
         //----------------------------------------------------------------------------------
-        mousePoint = GetMousePosition();
+        frames_counter++;
 
-        for (int i = 0; i < MAX_COLORS_COUNT; i++)
-            if (CheckCollisionPointRec(mousePoint, colorsRecs[i]))
-                colorState[i] = 1;
-            else
-                colorState[i] = 0;
+        if (frames_counter >= (60 / frames_speed)) {
+            frames_counter = 0;
+            current_frame++;
+
+            if (current_frame > 5)
+                current_frame = 0;
+
+            frame_rect.x = (float)current_frame * (float)anim_texture.width / frames_count;
+        }
+
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground({ 67, 50, 128, 255 });
 
-        DrawText("raylib colors palette", 28, 42, 20, BLACK);
-        DrawText("press SPACE to see all colors", GetScreenWidth() - 180, GetScreenHeight() - 40,
-                 10, GRAY);
+        DrawText("Hello World!", 330, (int)position.y + 224, 24, BLUE);
 
-        for (int i = 0; i < MAX_COLORS_COUNT; i++)  // Draw all rectangles
-        {
-            DrawRectangleRec(colorsRecs[i], Fade(colors[i], colorState[i] ? 0.6f : 1.0f));
-
-            if (IsKeyDown(KEY_SPACE) || colorState[i]) {
-                DrawRectangle((int)colorsRecs[i].x,
-                              (int)(colorsRecs[i].y + colorsRecs[i].height - 26),
-                              (int)colorsRecs[i].width, 20, BLACK);
-                DrawRectangleLinesEx(colorsRecs[i], 6, Fade(BLACK, 0.3f));
-                DrawText(colorNames[i],
-                         (int)(colorsRecs[i].x + colorsRecs[i].width
-                               - MeasureText(colorNames[i], 10) - 12),
-                         (int)(colorsRecs[i].y + colorsRecs[i].height - 20), 10, colors[i]);
-            }
-        }
+        DrawTextureRec(anim_texture, frame_rect, position, WHITE);  // Draw part of the texture
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -87,6 +60,8 @@ int main() {
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
+    UnloadTexture(anim_texture);  // Texture unloading
+
     CloseWindow();  // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 # Raylib CMake Template
-[![Ubuntu](https://github.com/efreyu/raylib-cmake-template/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/efreyu/raylib-cmake-template/actions/workflows/ubuntu.yml)
+[![Windows Clang and Ubuntu gcc/clang](https://github.com/efreyu/raylib-cmake-template/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/efreyu/raylib-cmake-template/actions/workflows/cmake-multi-platform.yml)
 ## Introduction
 
 This project provides a CMake-supported template for [RayLib](https://github.com/raysan5/raylib) projects, aiming to simplify and standardize the build process across different platforms. It leverages CMake's powerful cross-platform build system capabilities to enhance Raylib project development.
@@ -25,7 +25,7 @@ This project provides a CMake-supported template for [RayLib](https://github.com
   - [x] Linux
   - [x] MacOS
 - [x] Clang-format support
-- [ ] Resource copying
+- [x] Resource copying
 
 ## Installation Guide
 Fork and Clone: Start by forking this project and cloning it to your local machine.
@@ -50,7 +50,11 @@ $ make -j$(nproc)
 ```
 
 ### Usage
-After building the project, you can start developing your project with Raylib by adding your source files to the src/ directory and resources to resources/. The CMake scripts are designed to handle the rest.
+After building the project, you can start developing your project with Raylib by adding your source files to the src/ directory and resources to resources/. The CMake scripts are designed to handle the rest. 
+
+Every time you add a new source file and a new resources, you will need to re-run the CMake build command to update the project files before building the project.
+
+Please note that the project is still in development and may contain bugs.
 
 ## Acknowledgments
 - Inspiration and base configuration adapted from [SasLuca's raylib-cmake-template](https://github.com/SasLuca/raylib-cmake-template) and [Asmaloney's GDExtensionTemplate](https://github.com/asmaloney/GDExtensionTemplate).
