@@ -20,10 +20,12 @@ This project provides a CMake-supported template for [RayLib](https://github.com
 ## Status
 
 - [x] Basic CMake support
-- [ ] Project generation
-  - [ ] Windows
-  - [ ] Linux
+- [x] Project generation
+  - [x] Windows
+  - [x] Linux
   - [x] MacOS
+- [x] Clang-format support
+- [ ] Resource copying
 
 ## Installation Guide
 Fork and Clone: Start by forking this project and cloning it to your local machine.
